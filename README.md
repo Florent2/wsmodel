@@ -33,7 +33,7 @@ relationships, where two complete strangers can be linked through a chain of
 few acquaintances. There are many other 
 [examples of small-world network](http://en.wikipedia.org/wiki/Small-world_network#Examples_of_small-world_networks).
 
-Watts-Strogatz model
+The Watts-Strogatz model network construction
 ---
 
 It is built on a ring lattice, basically it means that the network nodes 
@@ -50,7 +50,7 @@ some probability. This probability is the parameter *beta*. For instance
 a link from node A to B has a beta probability to be rewired from A to
 another random node Bnew in the lattice.
 
-![Construction of a Watts-Strogratz model network]()
+![Construction of a Watts-Strogratz model network](https://github.com/Florent2/Watts-Strogatz-model-network-generator/raw/master/images/construction-of-the-model.png)
 
 When beta is 0 the lattice remains unchanged. When beta is 1 all links
 are rewired, generating a full random network. In the middle the network
