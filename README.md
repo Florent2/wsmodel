@@ -56,8 +56,25 @@ When beta is 0 the lattice remains unchanged. When beta is 1 all links
 are rewired, generating a full random network. In the middle the network
 is partly ordered and partly random.
 
-See below the section "Link rewiring algorithm" for the exact link rewiring
-algorithm.
+Here is the exact rewiring algorithm described in
+[Collective dynamics of 'small-world' network](http://tam.cornell.edu/tam/cms/manage/upload/SS_nature_smallworld.pdf),
+legend of figure 1:
+
+Note first that:
+* vertex = node
+* edge = link
+
+"We choose a vertex and the edge that connects it to its nearest neighbour in a
+clockwise sense. With probability p, we reconnect this edge to a vertex chosen
+uniformly at random over the entire ring, with duplicate edges forbidden; 
+otherwise we leave the edge in place. We repeat this process by moving clockwise
+around the ring, considering each vertex in turn until one lap is completed. Next,
+we consider the edges that connect vertices to their second-nearest neighbours
+clockwise. As before, we randomly rewire each of these edges with probability p,
+and continue this process, circulating around the ring and proceeding outward to
+more distant neighbours after each lap, until each edge in the original lattice has
+been considered once. (As there are nk/2 edges in the entire graph, the rewiring
+process stops after k/2 laps.)"
 
 Interest of the Watts-Strogatz model
 ---
@@ -85,26 +102,3 @@ Here are some results:
   * on average the first five random rewirings reduce the average path 
 length of the network by one half, regardless of the size of the
 network
-
-
-Link rewiring algorithm
----
-
-From [Collective dynamics of 'small-world' network](http://tam.cornell.edu/tam/cms/manage/upload/SS_nature_smallworld.pdf),
-legend of figure 1
-
-Note first that:
-* vertex = node
-* edge = link
-
-"We choose a vertex and the edge that connects it to its nearest neighbour in a
-clockwise sense. With probability p, we reconnect this edge to a vertex chosen
-uniformly at random over the entire ring, with duplicate edges forbidden; 
-otherwise we leave the edge in place. We repeat this process by moving clockwise
-around the ring, considering each vertex in turn until one lap is completed. Next,
-we consider the edges that connect vertices to their second-nearest neighbours
-clockwise. As before, we randomly rewire each of these edges with probability p,
-and continue this process, circulating around the ring and proceeding outward to
-more distant neighbours after each lap, until each edge in the original lattice has
-been considered once. (As there are nk/2 edges in the entire graph, the rewiring
-process stops after k/2 laps.)"
