@@ -91,14 +91,16 @@ compromise between very basic forces - order & disorder - and not from
 the specific mechanisms by which that compromise brokered (the link
 rewiring in the model is a random process, it does not follow some rules).
 
-TODO: 
+### Exact results obtained by Watts and Strogatz
 
-* describe how to calculate the clustering coefficient and the average 
-path length
-* show the results obtained by Watts & Strogatz. This will serve as the 
-reference to check the correctness and appropriate use of the my implementation. 
-Here are some results:
-  * output parameters values based on the beta parameter
-  * on average the first five random rewirings reduce the average path 
-length of the network by one half, regardless of the size of the
-network
+They will serve as the reference to check the correctness and appropriate use 
+of the my implementation.
+
+The values of the clustering coefficient and the average path length based on the
+beta parameter are presented and detailled on the figure 2 of the article
+[Collective dynamics of 'small-world'
+network](http://tam.cornell.edu/tam/cms/manage/upload/SS_nature_smallworld.pdf).
+ 
+From the [Six Degrees](http://books.wwnorton.com/books/Six-Degrees/) book: 
+"on average the first five random rewirings reduce the average path  length of 
+the network by one half, regardless of the size of the network."
