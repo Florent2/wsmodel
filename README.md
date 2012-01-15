@@ -102,5 +102,35 @@ beta parameter are presented and detailled on the figure 2 of the article
 network](http://tam.cornell.edu/tam/cms/manage/upload/SS_nature_smallworld.pdf).
  
 From the [Six Degrees](http://books.wwnorton.com/books/Six-Degrees/) book: 
-"on average the first five random rewirings reduce the average path  length of 
+"on average the first five random rewirings reduce the average path length of 
 the network by one half, regardless of the size of the network."
+
+Calculation of the clustering coefficient
+---
+
+From the ["clustering coefficient"](http://en.wikipedia.org/wiki/Clustering_coefficient) 
+Wikipedia page.
+
+We want to calculate the "Network average clustering coefficient". It is the 
+average of the local clustering coefficients of all the nodes.
+
+The local clustering coefficient of a node is the proportion of links between 
+the nodes within its neighbourhood divided by the number of links that could 
+possibly exist between them (the neighbourhoud of a node is the set of
+all the nodes linked to this node).
+
+From Wikipedia:
+
+![Local clustering coefficient of the blue node in different graphs](http://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Clustering_coefficient_example.svg/220px-Clustering_coefficient_example.svg.png)
+
+"The local clustering coefficient of the light blue node is computed as the 
+proportion of connections among its neighbors which are actually realized 
+compared with the number of all possible connections. In the figure, the 
+light blue node has three neighbours, which can have a maximum of 3 
+connections among them. In the top part of the figure all three possible 
+connections are realised (thick black segments), giving a local clustering 
+coefficient of 1. In the middle part of the figure only one connection is 
+realised (thick black line) and 2 connections are missing (dotted red lines), 
+giving a local cluster coefficient of 1/3. Finally, none of the possible 
+connections among the neighbours of the light blue node are realised, 
+producing a local clustering coefficient value of 0."
