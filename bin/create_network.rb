@@ -2,5 +2,6 @@
 
 require_relative "../lib/wsmodel"
 
-WSModel::Network.new 0.5, 10, 4
+n = WSModel::Network.new 1, 10, 4
 
+puts n

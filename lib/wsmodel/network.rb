@@ -7,13 +7,12 @@ module WSModel
     def initialize(beta=0.5, nodes_nb=1000, node_degree=10)
       @beta        = beta
       @node_degree = node_degree
-      @nodes       = Nodes.new nodes_nb
-      @links       = Links.new
+      @nodes_nb    = nodes_nb
+      @nodes       = 0..(nodes_nb -1)
+      @links       = Array.new(nodes_nb) { Set.new }
 
       build_initial_links
-      puts @links.links_set.size
       rewire_links
-      puts @links.links_set.size
     end
 
     def average_path_length
@@ -22,27 +21,42 @@ module WSModel
     def clustering_coefficient
     end
 
+    def to_s
+      @links.each_with_index do |links, node|
+        puts node.to_s + " => " + links.to_a.join(", ")
+      end
+    end
+
     private
+    
+    def add_link_between(node, other_node)
+      @links[node] << other_node
+      @links[other_node] << node
+    end
 
     def build_initial_links
       @nodes.each do |node|
         (@node_degree / 2).times do |i|
-          @links.add_between node, @nodes.neighbour_of(node, i + 1)
+          add_link_between node, (node + i + 1) % @nodes_nb
         end
       end
+    end
+
+    def remove_link_between(node, other_node)
+      @links[node].delete other_node
+      @links[other_node].delete node
     end
 
     def rewire_links
       (@node_degree / 2).times do |i|
         @nodes.each do |node|
           if rand < @beta
-            neighbour = @nodes.neighbour_of node, i + 1
-            @links.remove_between node, neighbour
+            neighbour = (node + i + 1) % @nodes_nb
+            remove_link_between node, neighbour
 
-            already_linked = @nodes.select { |other| @links.exists_between? \
-              node, other }
-            new_linked = @nodes.random_except [node, neighbour] + already_linked
-            @links.add_between node, new_linked
+            unlinkable_nodes = [node, neighbour] + @links[node].to_a
+            new_neighbour    = (@nodes.to_a - unlinkable_nodes).sample
+            add_link_between node, new_neighbour
           end
         end
       end
