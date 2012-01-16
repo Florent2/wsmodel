@@ -119,6 +119,10 @@ the nodes within its neighbourhood divided by the number of links that could
 possibly exist between them (the neighbourhoud of a node is the set of
 all the nodes linked to this node).
 
+We can say that the local clustering coefficient of a node is the 
+*interconnectedness* of its neighbours. See [an example with the public
+transport network of Turkey](http://www.few.vu.nl/~dvdberg/swn/swn.html)
+
 From Wikipedia:
 
 ![Local clustering coefficient of the blue node in different graphs](http://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Clustering_coefficient_example.svg/220px-Clustering_coefficient_example.svg.png)
