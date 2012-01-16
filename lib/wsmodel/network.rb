@@ -10,11 +10,11 @@ module WSModel
       @nodes_nb    = nodes_nb
       # a node is just represented by an index: 0, 1, 2...
       @nodes       = 0..(nodes_nb -1) 
-      # @links array indexes are the node indexes, the values are sets of
-      # indexes of the linked nodes
-      # for example if the node 0 is linked to the nodes 2 and 4
-      # @links[0] = Set.new [2, 4]
-      @links       = Array.new(nodes_nb) { Set.new }
+      # @neighbours array indexes are the node indexes
+      # the values are sets of indexes of the neighbour nodes
+      # for example if the node 0 is linked to the nodes 2 and 4:
+      # @neighbours[0] = Set.new [2, 4]
+      @neighbours       = Array.new(nodes_nb) { Set.new }
 
       build_initial_links
       rewire_links
@@ -25,7 +25,7 @@ module WSModel
 
     # see "Calculation of the clustering coefficient" in the README
     def clustering_coefficient
-      local_clustering_coeff_sum = 0.0
+      local_clustering_coeff_sum = 0.0 # TODO simplify with inject
       @nodes.each do |node| 
         local_clustering_coeff_sum += local_clustering_coeff node
       end
@@ -34,14 +34,14 @@ module WSModel
     end
 
     def local_clustering_coeff(node)
-      neighbours = @links[node]
+      neighbours = @neighbours[node]
       return 0.0 if neighbours.size < 2
 
       possible_links_nb = neighbours.size * (neighbours.size - 1) / 2
 
       actual_links_nb = 0
       neighbours.each do |neighbour|
-        actual_links_nb += (@links[neighbour] & neighbours).size
+        actual_links_nb += (@neighbours[neighbour] & neighbours).size
       end
       # we have counted twice each link (x => y and y => x)
       # so we need to divide the total by 2
@@ -51,16 +51,16 @@ module WSModel
     end
 
     def to_s
-      @links.each_with_index do |links, node|
-        puts node.to_s + " => " + links.to_a.join(", ")
+      @neighbours.each_with_index do |neighbours, node|
+        puts node.to_s + " => " + neighbours.to_a.join(", ")
       end
     end
 
     private
     
     def add_link_between(node, other_node)
-      @links[node] << other_node
-      @links[other_node] << node
+      @neighbours[node] << other_node
+      @neighbours[other_node] << node
     end
 
     def build_initial_links
@@ -72,8 +72,8 @@ module WSModel
     end
 
     def remove_link_between(node, other_node)
-      @links[node].delete other_node
-      @links[other_node].delete node
+      @neighbours[node].delete other_node
+      @neighbours[other_node].delete node
     end
 
     def rewire_links
@@ -83,7 +83,7 @@ module WSModel
             neighbour = (node + i + 1) % @nodes_nb
             remove_link_between node, neighbour
 
-            unlinkable_nodes = [node, neighbour] + @links[node].to_a
+            unlinkable_nodes = [node, neighbour] + @neighbours[node].to_a
             new_neighbour    = (@nodes.to_a - unlinkable_nodes).sample
             add_link_between node, new_neighbour
           end
