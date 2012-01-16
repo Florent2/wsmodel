@@ -8,7 +8,12 @@ module WSModel
       @beta        = beta
       @node_degree = node_degree
       @nodes_nb    = nodes_nb
-      @nodes       = 0..(nodes_nb -1)
+      # a node is just represented by an index: 0, 1, 2...
+      @nodes       = 0..(nodes_nb -1) 
+      # @links array indexes are the node indexes, the values are sets of
+      # indexes of the linked nodes
+      # for example if the node 0 is linked to the nodes 2 and 4
+      # @links[0] = Set.new [2, 4]
       @links       = Array.new(nodes_nb) { Set.new }
 
       build_initial_links
