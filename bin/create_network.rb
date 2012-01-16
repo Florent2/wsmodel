@@ -2,6 +2,6 @@
 
 require_relative "../lib/wsmodel"
 
-n = WSModel::Network.new 1, 10, 4
+network = WSModel::Network.new 1, 5000, 3
 
-puts n
+puts "Clustering coefficient = " + network.clustering_coefficient.to_s

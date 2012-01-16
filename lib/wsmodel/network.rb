@@ -18,7 +18,31 @@ module WSModel
     def average_path_length
     end
 
+    # see "Calculation of the clustering coefficient" in the README
     def clustering_coefficient
+      local_clustering_coeff_sum = 0.0
+      @nodes.each do |node| 
+        local_clustering_coeff_sum += local_clustering_coeff node
+      end
+
+      local_clustering_coeff_sum / @nodes_nb
+    end
+
+    def local_clustering_coeff(node)
+      neighbours = @links[node]
+      return 0.0 if neighbours.size < 2
+
+      possible_links_nb = neighbours.size * (neighbours.size - 1) / 2
+
+      actual_links_nb = 0
+      neighbours.each do |neighbour|
+        actual_links_nb += (@links[neighbour] & neighbours).size
+      end
+      # we have counted twice each link (x => y and y => x)
+      # so we need to divide the total by 2
+      actual_links_nb = actual_links_nb / 2
+
+      actual_links_nb.to_f / possible_links_nb
     end
 
     def to_s
