@@ -16,9 +16,19 @@ puts "Clustering coefficient 'on random C elegans neural network' = " + network.
 # http://tam.cornell.edu/tam/cms/manage/upload/SS_nature_smallworld.pdf
 # reproduction of the figure 2 results
 
-l0      = WSModel::Network.new(0, 1000, 10).clustering_coefficient
-l0dot01 = WSModel::Network.new(0.01, 1000, 10).clustering_coefficient
-l0dot1  = WSModel::Network.new(0.1, 1000, 10).clustering_coefficient
+c0 = WSModel::Network.new(0, 1000, 10).clustering_coefficient
 
-puts "L(0.01) / L(0) = " + (l0dot01 / l0).to_s
-puts "L(0.1)  / L(0) = " + (l0dot1 / l0).to_s
+beta_values= [0.0001, 0.001, 0.01, 0.1, 0.2, 0.5]
+beta_values.each do |beta|
+  coeffs = []
+  20.times do |i|
+    coeffs[i] = WSModel::Network.new(beta, 1000, 10).clustering_coefficient
+  end
+  clustering_coefficient = coeffs.inject{ |sum, val| sum + val } / coeffs.size
+  puts "C(#{beta}) / C(0) = " + (clustering_coefficient / c0).to_s
+end
+#c0dot01 = WSModel::Network.new(0.01, 1000, 10).clustering_coefficient
+#c0dot1  = WSModel::Network.new(0.1, 1000, 10).clustering_coefficient
+
+#puts "C(0.01) / C(0) = " + (c0dot01 / c0).to_s
+#puts "C(0.1)  / C(0) = " + (c0dot1 / c0).to_s
