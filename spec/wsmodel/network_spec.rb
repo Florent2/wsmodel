@@ -23,7 +23,7 @@ describe WSModel::Network do
       # http://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Clustering_coefficient_example.svg/142px-Clustering_coefficient_example.svg.png
       # we 0 is the blue node, 1 is the bottom node, 2 is the right node and 3
       # the top node
-      network.instance_variable_set :@links, [
+      network.instance_variable_set :@neighbours, [
         Set.new([1, 2, 3]),
         Set.new([0, 2]),
         Set.new([0, 1]),
@@ -62,7 +62,7 @@ describe WSModel::Network do
         # http://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Clustering_coefficient_example.svg/142px-Clustering_coefficient_example.svg.png
         # we 0 is the blue node, 1 is the bottom node, 2 is the right node 
         # and 3 the top node
-        @network.instance_variable_set :@links, [
+        @network.instance_variable_set :@neighbours, [
           Set.new([1, 2, 3]),
           Set.new([0, 2]),
           Set.new([0, 1]),
