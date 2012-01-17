@@ -7,6 +7,13 @@ networks defining input parameters (number of nodes, beta parameter) and
 collecting output parameters (average path length, the clustering coefficient, 
 and the degree distribution).
 
+Usage
+---
+
+Require Ruby 1.9+.
+
+Run `bin/run_experiment.rb`.
+
 Background
 ---
 
