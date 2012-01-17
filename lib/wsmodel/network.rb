@@ -25,12 +25,9 @@ module WSModel
 
     # see "Calculation of the clustering coefficient" in the README
     def clustering_coefficient
-      local_clustering_coeff_sum = 0.0 # TODO simplify with inject
-      @nodes.each do |node| 
-        local_clustering_coeff_sum += local_clustering_coeff node
-      end
-
-      local_clustering_coeff_sum / @nodes_nb
+      @nodes.inject(0.0) do |sum, node| 
+        sum += local_clustering_coeff node
+      end / @nodes_nb
     end
 
     def local_clustering_coeff(node)
