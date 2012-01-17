@@ -98,13 +98,14 @@ compromise between very basic forces - order & disorder - and not from
 the specific mechanisms by which that compromise brokered (the link
 rewiring in the model is a random process, it does not follow some rules).
 
-### Exact results obtained by Watts and Strogatz
+Exact results obtained by Watts and Strogatz
+---
 
 They will serve as the reference to check the correctness and appropriate use 
 of the my implementation.
 
 The values of the clustering coefficient and the average path length based on the
-beta parameter are presented and detailled on the figure 2 of the article
+beta parameter are presented and detailed on the figure 2 of the article
 [Collective dynamics of 'small-world'
 network](http://tam.cornell.edu/tam/cms/manage/upload/SS_nature_smallworld.pdf).
  
