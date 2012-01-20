@@ -14,11 +14,26 @@ Require Ruby 1.9+.
 
 Run `bin/run_experiment.rb`.
 
+Terminology
+---
+
+Various concepts can be named by different equivalent words in the
+various sources mentioned here.
+
+* node = vertice
+* link = edge, connection
+* node degree *k* = number of links per node
+* parameter *beta* = probability *p*
+* characteristic path lengt = average path length
+ 
 Background
 ---
 
-(from Wikipedia and the 
-[Six Degrees](http://books.wwnorton.com/books/Six-Degrees/) book)
+Main Sources:
+* [the Wikipedia page](http://en.wikipedia.org/wiki/Watts_and_Strogatz_model)
+* [the Six Degrees book](http://books.wwnorton.com/books/Six-Degrees/)
+* the [Collective dynamics of 'small-world' network](http://tam.cornell.edu/tam/cms/manage/upload/SS_nature_smallworld.pdf) 
+article
 
 Watts and Strogatz published this network model in 1998. They intended to 
 create the simplest model that can produce graphs with 
