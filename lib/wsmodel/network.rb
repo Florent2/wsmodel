@@ -60,23 +60,23 @@ module WSModel
 
     # see "Calculation of the average path length" in the README
     def shortest_path_length(from_node, to_node)
-      paths = Array.new(@nodes_nb, nil)
-      paths[from_node] = []
+      paths = Array.new(@nodes_nb, Array.new(@nodes_nb, nil))
+      paths[from_node][from_node] = []
       
       queue = [from_node]
       while queue.any? do
         examined_node = queue.shift
 
         if examined_node == to_node
-          puts "found length from #{from_node} to #{to_node} = #{paths[to_node].length}"
-          puts "found path= #{paths[to_node].inspect}"
-          return paths[to_node].length
+          puts "found length from #{from_node} to #{to_node} = #{paths[from_node][to_node].length}"
+          puts "found path= #{paths[from_node][to_node].inspect}"
+          return paths[from_node][to_node].length
         end
 
         @neighbours[examined_node].select do |neighbour| 
-          if paths[neighbour].nil?
+          if paths[from_node][neighbour].nil?
             queue << neighbour 
-            paths[neighbour] = paths[examined_node] + [examined_node]
+            paths[from_node][neighbour] = paths[from_node][examined_node] + [examined_node]
           end
         end
       end
