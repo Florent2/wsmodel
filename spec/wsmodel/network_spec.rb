@@ -71,7 +71,7 @@ describe WSModel::Network do
       end
 
       it "is 0.33 when only a third of the neighbours are linked" do
-       @network.local_clustering_coeff(0).must_be_within_delta 0.33, 0.004
+        @network.local_clustering_coeff(0).must_be_within_delta 0.33, 0.004
       end
 
       it "is 0 when there is only one neighbour" do
@@ -80,6 +80,31 @@ describe WSModel::Network do
 
     end
 
+  end
+
+  describe "shortest_path_length" do
+
+    before do
+      @network = WSModel::Network.new 0, 9, 1
+      @network.instance_variable_set :@neighbours, [
+        Set.new([1, 2]),
+        Set.new([0, 3]),
+        Set.new([0, 5, 4]),
+        Set.new([1, 5]),
+        Set.new([2, 4, 5, 6]),
+        Set.new([2, 3]),
+        Set.new([4]),
+        Set.new([8]),
+        Set.new([7])
+      ]
+    end
+
+    it { @network.shortest_path_length(1, 1).must_equal 0 }
+    it { @network.shortest_path_length(1, 4).must_equal 3 }
+    it { @network.shortest_path_length(1, 5).must_equal 2 }
+    it { @network.shortest_path_length(1, 6).must_equal 4 }
+    it { @network.shortest_path_length(6, 1).must_equal 4 }
+    it { @network.shortest_path_length(7, 1).must_equal 0 }
   end
 
 end

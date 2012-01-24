@@ -20,7 +20,19 @@ module WSModel
       rewire_links
     end
 
+    # see "Calculation of the average path length" in the README
     def average_path_length
+      shortest_path_lengths_sum = 0
+
+      @nodes.each do |from_node|
+        @nodes.each do |to_node|
+          if from_node < to_node # to avoid calculating for both x=>y and y=>x
+            shortest_path_lengths_sum += shortest_path_length from_node, to_node
+          end
+        end
+      end
+
+      2.0 * shortest_path_lengths_sum / (@nodes_nb * (@nodes_nb - 1))
     end
 
     # see "Calculation of the clustering coefficient" in the README
@@ -47,6 +59,32 @@ module WSModel
       actual_links_nb.to_f / possible_links_nb
     end
 
+
+    # see "Calculation of the average path length" in the README
+    def shortest_path_length(from_node, to_node)
+      queue         = [from_node]
+      visited_nodes = [from_node]
+
+      while queue.any? do
+        examined_node = queue.shift
+
+        if examined_node == to_node
+          return path_length(from_node, to_node, visited_nodes)
+        else
+          @neighbours[examined_node].each do |neighbour|
+            unless visited_nodes.include?(neighbour)
+              visited_nodes << neighbour
+              queue.push neighbour
+            end
+          end
+        end
+      end
+      
+      # we arrive here when we could not find a path
+      # in this case by definition the path length is 0
+      0
+    end
+      
     def to_s
       @neighbours.each_with_index do |neighbours, node|
         puts node.to_s + " => " + neighbours.to_a.join(", ")
@@ -65,6 +103,18 @@ module WSModel
         (@node_degree / 2).times do |i|
           add_link_between node, (node + i + 1) % @nodes_nb
         end
+      end
+    end
+
+    # this method calculates the path length between from_node and to_node
+    # by going back from from_node to to_node through the visited nodes
+    def path_length(from_node, to_node, visited_nodes)
+      if from_node == to_node
+       0
+      else
+        next_to_last_node = (@neighbours[to_node] & visited_nodes).first
+        visited_nodes.delete to_node
+        1 + path_length(from_node, next_to_last_node, visited_nodes)
       end
     end
 

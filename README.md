@@ -24,7 +24,7 @@ various sources mentioned here.
 * link = edge, connection
 * node degree *k* = number of links per node
 * parameter *beta* = probability *p*
-* characteristic path lengt = average path length
+* characteristic path length = average path length
  
 Background
 ---
@@ -161,3 +161,27 @@ realised (thick black line) and 2 connections are missing (dotted red lines),
 giving a local cluster coefficient of 1/3. Finally, none of the possible 
 connections among the neighbours of the light blue node are realised, 
 producing a local clustering coefficient value of 0."
+
+Calculation of the average path length
+---
+
+From the ["average path length"](http://en.wikipedia.org/wiki/Average_path_length)
+Wikipedia page.
+
+It is defined as the average number of steps along the shortest paths for all 
+possible pairs of network nodes. It is a measure of the efficiency of 
+information or mass transport on a network.
+
+Basically the algorithm is:
+
+1. for each possible pair of nodes, calculate the shortest path length between 
+them
+2. calculate the average of those shortest paths
+
+To calculate the shortest path between two nodes A and B, we can use a 
+[Breadth-first search](http://en.wikipedia.org/wiki/Breadth-first_search) where
+the starting node is A and the goal node is B. As the search is done through 
+the successive "layers" of neighbours of node A, the first time we found the 
+node B we know we found it through the shortest possible path. To calculate the
+actual path length, we just count the number of steps needed to go back from B 
+to A through the visited nodes during the Breadth-first search.

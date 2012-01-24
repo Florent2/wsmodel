@@ -11,7 +11,7 @@ module WSModel
     end
 
     def run
-      c0 ||= WSModel::Network.new(0, 1000, 10).clustering_coefficient
+      c0 = WSModel::Network.new(0, 1000, 10).clustering_coefficient
       beta_values = [0.0001, 0.001, 0.01, 0.1, 0.2, 0.5]
 
       beta_values.each do |beta|
