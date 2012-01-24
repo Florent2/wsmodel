@@ -60,27 +60,28 @@ module WSModel
 
     # see "Calculation of the average path length" in the README
     def shortest_path_length(from_node, to_node)
-      lengths = Array.new(@nodes_nb, Float::INFINITY)
-      lengths[from_node] = 0
+      paths = Array.new(@nodes_nb, nil)
+      paths[from_node] = []
       
       queue = [from_node]
       while queue.any? do
         examined_node = queue.shift
-        length        = lengths[examined_node]
 
         if examined_node == to_node
-          return length 
+          puts "found length from #{from_node} to #{to_node} = #{paths[to_node].length}"
+          puts "found path= #{paths[to_node].inspect}"
+          return paths[to_node].length
         end
 
         @neighbours[examined_node].select do |neighbour| 
-          if lengths[neighbour] == Float::INFINITY
+          if paths[neighbour].nil?
             queue << neighbour 
-            lengths[neighbour] = length + 1
+            paths[neighbour] = paths[examined_node] + [examined_node]
           end
         end
       end
 
-      # we arrive here when we could not find a path
+      # we arrive here when we could not find a path between from_node and to_node
       # in this case by definition the path length is 0
       0
     end
@@ -103,18 +104,6 @@ module WSModel
         (@node_degree / 2).times do |i|
           add_link_between node, (node + i + 1) % @nodes_nb
         end
-      end
-    end
-
-    # this method calculates the path length between from_node and to_node
-    # by going back from from_node to to_node through the visited nodes
-    def path_length(from_node, to_node, visited_nodes)
-      if from_node == to_node
-       0
-      else
-        next_to_last_node = (@neighbours[to_node] & visited_nodes).first
-        visited_nodes.delete to_node
-        1 + path_length(from_node, next_to_last_node, visited_nodes)
       end
     end
 
