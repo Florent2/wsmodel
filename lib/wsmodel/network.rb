@@ -26,11 +26,13 @@ module WSModel
 
       @nodes.each do |from_node|
         @nodes.each do |to_node|
-          shortest_path_lengths_sum += shortest_path_length from_node, to_node
+          if from_node < to_node # to avoid calculating for both x=>y and y=>x
+            shortest_path_lengths_sum += shortest_path_length from_node, to_node
+          end
         end
       end
 
-      shortest_path_lengths_sum / (@nodes_nb * (@nodes_nb - 1))
+      2.0 * shortest_path_lengths_sum / (@nodes_nb * (@nodes_nb - 1))
     end
 
     # see "Calculation of the clustering coefficient" in the README
@@ -57,26 +59,53 @@ module WSModel
       actual_links_nb.to_f / possible_links_nb
     end
 
+    # TODO delete
+    def puts_paths
+      puts "Current values of @paths:"
+      puts "---"
+      @paths.each do |value, key|
+        puts " @paths[#{value}] = #{key}"
+      end
+      puts "---"
+    end
 
     # see "Calculation of the average path length" in the README
     def shortest_path_length(from_node, to_node)
-      paths = Array.new(@nodes_nb, Array.new(@nodes_nb, nil))
-      paths[from_node][from_node] = []
-      
-      queue = [from_node]
+      @paths ||= Hash.new
+
+      puts
+      puts "Calculating from #{from_node} to #{to_node}..."
+      puts
+
+      if !@paths[[from_node, to_node]].nil?
+        puts "DIRECT FOUND!"
+        puts "found length = #{@paths[[from_node, to_node]].length}"
+        puts "found path   = #{@paths[[from_node, to_node]].inspect}"
+        return @paths[[from_node, to_node]].length
+      end
+
+      @paths[[from_node, from_node]] = []
+      visited_nodes                  = [from_node]
+      queue                          = [from_node]
+
       while queue.any? do
-        examined_node = queue.shift
+        visiting_node = queue.shift
 
-        if examined_node == to_node
-          puts "found length from #{from_node} to #{to_node} = #{paths[from_node][to_node].length}"
-          puts "found path= #{paths[from_node][to_node].inspect}"
-          return paths[from_node][to_node].length
-        end
+        @neighbours[visiting_node].select do |neighbour| 
+          unless visited_nodes.include?(neighbour)
+            @paths[[from_node, neighbour]] = @paths[[from_node, visiting_node]] + 
+              [neighbour]
 
-        @neighbours[examined_node].select do |neighbour| 
-          if paths[from_node][neighbour].nil?
-            queue << neighbour 
-            paths[from_node][neighbour] = paths[from_node][examined_node] + [examined_node]
+            #puts "Created path @paths[[#{from_node}, #{neighbour}]] = #{@paths[[from_node,neighbour]]}"
+            if neighbour == to_node
+              puts "found length = #{@paths[[from_node,to_node]].length}"
+              puts "found path   = #{@paths[[from_node,to_node]].inspect}"
+              puts "end paths"
+              return @paths[[from_node,to_node]].length
+            else
+              visited_nodes << neighbour
+              queue         << neighbour 
+            end
           end
         end
       end

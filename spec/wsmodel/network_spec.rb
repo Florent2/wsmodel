@@ -105,7 +105,6 @@ describe WSModel::Network do
       @network.shortest_path_length(1, 6).must_equal 4 
       @network.shortest_path_length(6, 1).must_equal 4 
       @network.shortest_path_length(7, 1).must_equal 0 
-      @network.shortest_path_length(1, 1).must_equal 0 
     }
   end
 
