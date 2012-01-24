@@ -91,20 +91,22 @@ describe WSModel::Network do
         Set.new([0, 3]),
         Set.new([0, 5, 4]),
         Set.new([1, 5]),
-        Set.new([2, 4, 5, 6]),
-        Set.new([2, 3]),
+        Set.new([2, 5, 6]),
+        Set.new([2, 3, 4]),
         Set.new([4]),
         Set.new([8]),
         Set.new([7])
       ]
     end
 
-    it { @network.shortest_path_length(1, 1).must_equal 0 }
-    it { @network.shortest_path_length(1, 4).must_equal 3 }
-    it { @network.shortest_path_length(1, 5).must_equal 2 }
-    it { @network.shortest_path_length(1, 6).must_equal 4 }
-    it { @network.shortest_path_length(6, 1).must_equal 4 }
-    it { @network.shortest_path_length(7, 1).must_equal 0 }
+    it {
+      @network.shortest_path_length(1, 4).must_equal 3 
+      @network.shortest_path_length(1, 5).must_equal 2 
+      @network.shortest_path_length(1, 6).must_equal 4 
+      @network.shortest_path_length(6, 1).must_equal 4 
+      @network.shortest_path_length(7, 1).must_equal 0 
+      @network.shortest_path_length(1, 1).must_equal 0 
+    }
   end
 
 end

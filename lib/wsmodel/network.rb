@@ -26,13 +26,11 @@ module WSModel
 
       @nodes.each do |from_node|
         @nodes.each do |to_node|
-          if from_node < to_node # to avoid calculating for both x=>y and y=>x
-            shortest_path_lengths_sum += shortest_path_length from_node, to_node
-          end
+          shortest_path_lengths_sum += shortest_path_length from_node, to_node
         end
       end
 
-      2.0 * shortest_path_lengths_sum / (@nodes_nb * (@nodes_nb - 1))
+      shortest_path_lengths_sum / (@nodes_nb * (@nodes_nb - 1))
     end
 
     # see "Calculation of the clustering coefficient" in the README
@@ -62,29 +60,31 @@ module WSModel
 
     # see "Calculation of the average path length" in the README
     def shortest_path_length(from_node, to_node)
-      queue         = [from_node]
-      visited_nodes = [from_node]
-
+      lengths = Array.new(@nodes_nb, Float::INFINITY)
+      lengths[from_node] = 0
+      
+      queue = [from_node]
       while queue.any? do
         examined_node = queue.shift
+        length        = lengths[examined_node]
 
         if examined_node == to_node
-          return path_length(from_node, to_node, visited_nodes)
-        else
-          @neighbours[examined_node].each do |neighbour|
-            unless visited_nodes.include?(neighbour)
-              visited_nodes << neighbour
-              queue.push neighbour
-            end
+          return length 
+        end
+
+        @neighbours[examined_node].select do |neighbour| 
+          if lengths[neighbour] == Float::INFINITY
+            queue << neighbour 
+            lengths[neighbour] = length + 1
           end
         end
       end
-      
+
       # we arrive here when we could not find a path
       # in this case by definition the path length is 0
       0
     end
-      
+
     def to_s
       @neighbours.each_with_index do |neighbours, node|
         puts node.to_s + " => " + neighbours.to_a.join(", ")
