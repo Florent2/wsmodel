@@ -2,4 +2,5 @@
 
 require "wsmodel"
 
-WSModel::Experiment.new.run
+experiment = WSModel::Experiment.new nodes_nb: ARGV[0], node_degree: ARGV[1], iterations: ARGV[2]
+experiment.run

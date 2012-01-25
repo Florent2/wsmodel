@@ -6,13 +6,16 @@ module WSModel
 
     BETA_VALUES = [0.0001, 0.001, 0.01, 0.1, 0.2, 0.5]
 
-    def initialize(nodes_nb=1000, node_degree=10, iterations=20)
-      @nodes_nb     = nodes_nb
-      @node_degree  = node_degree
-      @iterations   = iterations
+    def initialize(params)
+      @nodes_nb     = (params[:nodes_nb]    || 1000).to_i
+      @node_degree  = (params[:node_degree] ||   10).to_i
+      @iterations   = (params[:iterations]  ||   20).to_i
     end
 
     def run
+      puts "Running experiment on #{@iterations} iterations for " +
+          "#{@nodes_nb} nodes with #{@node_degree} degree..."
+
       non_random_network = WSModel::Network.new(0, @nodes_nb, @node_degree)
       c0 = non_random_network.clustering_coefficient
       l0 = non_random_network.average_path_length
