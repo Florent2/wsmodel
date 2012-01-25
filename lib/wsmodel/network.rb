@@ -73,14 +73,7 @@ module WSModel
     def shortest_path_length(from_node, to_node)
       @paths ||= Hash.new
 
-      puts
-      puts "Calculating from #{from_node} to #{to_node}..."
-      puts
-
       if !@paths[[from_node, to_node]].nil?
-        puts "DIRECT FOUND!"
-        puts "found length = #{@paths[[from_node, to_node]].length}"
-        puts "found path   = #{@paths[[from_node, to_node]].inspect}"
         return @paths[[from_node, to_node]].length
       end
 
@@ -96,11 +89,7 @@ module WSModel
             @paths[[from_node, neighbour]] = @paths[[from_node, visiting_node]] + 
               [neighbour]
 
-            #puts "Created path @paths[[#{from_node}, #{neighbour}]] = #{@paths[[from_node,neighbour]]}"
             if neighbour == to_node
-              puts "found length = #{@paths[[from_node,to_node]].length}"
-              puts "found path   = #{@paths[[from_node,to_node]].inspect}"
-              puts "end paths"
               return @paths[[from_node,to_node]].length
             else
               visited_nodes << neighbour
