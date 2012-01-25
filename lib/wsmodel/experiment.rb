@@ -18,7 +18,9 @@ module WSModel
 
       non_random_network = WSModel::Network.new(0, @nodes_nb, @node_degree)
       c0 = non_random_network.clustering_coefficient
+      puts "Clustering coefficient for beta = 0: #{c0}"
       l0 = non_random_network.average_path_length
+      puts "Average path length for beta = 0: #{l0}"
 
       BETA_VALUES.each do |beta|
         puts "Iterating for beta = #{beta}..."
