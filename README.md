@@ -12,7 +12,7 @@ Usage
 
 Require Ruby 1.9+.
 
-Run `bin/run_experiment.rb`.
+Run `ruby -Ilib bin/wsmodel`.
 
 Terminology
 ---
