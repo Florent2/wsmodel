@@ -104,7 +104,7 @@ module WSModel
       0
     end
 
-    def to_s
+    def print_to_console
       @neighbours.each_with_index do |neighbours, node|
         puts node.to_s + " => " + neighbours.to_a.join(", ")
       end
