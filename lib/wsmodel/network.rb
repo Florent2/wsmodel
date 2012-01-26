@@ -26,6 +26,8 @@ module WSModel
     def average_path_length
       shortest_path_lengths_sum = 0
 
+      @paths = Hash.new
+
       @nodes.each do |from_node|
         @nodes.each do |to_node|
           if from_node < to_node # to avoid calculating for both x=>y and y=>x
@@ -63,36 +65,30 @@ module WSModel
 
     # see "Calculation of the average path length" in the README
     def shortest_path_length(from_node, to_node)
-      @paths ||= Hash.new
 
       if !@paths[[from_node, to_node]].nil?
         return @paths[[from_node, to_node]].length
+      elsif !@paths[[to_node, from_node]].nil?
+        return @paths[[to_node, from_node]].length
       end
 
-      @paths[[from_node, from_node]] = []
-      visited_nodes                  = [from_node]
+      # a node is visited when nodes_visit_status[i] == true
+      nodes_visit_status              = Array.new @nodes_nb, false
       queue                          = [from_node]
+      @paths[[from_node, from_node]] = []
 
       while queue.any? do
         visiting_node = queue.shift
 
-        @neighbours[visiting_node].select do |neighbour| 
-          unless visited_nodes.include?(neighbour)
-
-            unless @paths[[from_node, neighbour]]
-              @paths[[from_node, neighbour]] = 
-                @paths[[from_node, visiting_node]] + [neighbour]
-              # store the reverse paths as well
-              # thus we avoid another future calculation
-              @paths[[neighbour, from_node]] = 
-                @paths[[from_node, neighbour]].reverse.drop(1) + [from_node]
-            end
+        @neighbours[visiting_node].each do |neighbour| 
+          unless nodes_visit_status[neighbour]
+            @paths[[from_node, neighbour]] ||= @paths[[from_node, visiting_node]] + [neighbour]
 
             if neighbour == to_node
-              return @paths[[from_node,to_node]].length
+              return @paths[[from_node, to_node]].length
             else
-              visited_nodes << neighbour
-              queue         << neighbour 
+              nodes_visit_status[neighbour] = true
+              queue << neighbour 
             end
           end
         end
