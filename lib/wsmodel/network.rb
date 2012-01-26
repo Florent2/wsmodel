@@ -61,16 +61,6 @@ module WSModel
       actual_links_nb.to_f / possible_links_nb
     end
 
-    # TODO delete
-    def puts_paths
-      puts "Current values of @paths:"
-      puts "---"
-      @paths.each do |value, key|
-        puts " @paths[#{value}] = #{key}"
-      end
-      puts "---"
-    end
-
     # see "Calculation of the average path length" in the README
     def shortest_path_length(from_node, to_node)
       @paths ||= Hash.new
@@ -88,8 +78,15 @@ module WSModel
 
         @neighbours[visiting_node].select do |neighbour| 
           unless visited_nodes.include?(neighbour)
-            @paths[[from_node, neighbour]] = @paths[[from_node, visiting_node]] + 
-              [neighbour]
+
+            unless @paths[[from_node, neighbour]]
+              @paths[[from_node, neighbour]] = 
+                @paths[[from_node, visiting_node]] + [neighbour]
+              # store the reverse paths as well
+              # thus we avoid another future calculation
+              @paths[[neighbour, from_node]] = 
+                @paths[[from_node, neighbour]].reverse.drop(1) + [from_node]
+            end
 
             if neighbour == to_node
               return @paths[[from_node,to_node]].length
@@ -101,7 +98,8 @@ module WSModel
         end
       end
 
-      # we arrive here when we could not find a path between from_node and to_node
+      # we arrive here when we could not find a path 
+      # between from_node and to_node
       # in this case by definition the path length is 0
       0
     end
