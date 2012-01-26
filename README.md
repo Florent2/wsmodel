@@ -11,7 +11,7 @@ Usage
 
 Require Ruby 1.9+.
 
-Run `ruby -Ilib bin/wsmodel node_number node_degree iteration_nb`
+Run `ruby -Ilib bin/wsmodel <node_number> <node_degree> <iteration_nb>`
 
 It performs the experiment of the 
 [Collective dynamics of 'small-world' network](http://tam.cornell.edu/tam/cms/manage/upload/SS_nature_smallworld.pdf) 
@@ -52,7 +52,7 @@ Main Sources:
 * the [Collective dynamics of 'small-world' network](http://tam.cornell.edu/tam/cms/manage/upload/SS_nature_smallworld.pdf) 
 article
 
-Watts and Strogatz published this network model in 1998. They intended to 
+Watts and Strogatz published their network model in 1998. They intended to 
 create the simplest model that can produce graphs with 
 [small-world properties](http://en.wikipedia.org/wiki/Small-world_network).
 
@@ -60,7 +60,7 @@ Small-worlds network are graphs in which most nodes are not neighbors of one
 another, but most nodes can be reached from every other by a small number of 
 hops or steps.
 
-It is translated in graph theory and topology by two main properties:
+It is translated in graph theory by two main properties:
 
 1. a large *[clustering coefficient](http://en.wikipedia.org/wiki/Clustering_coefficient)*: 
 the nodes in the graph tends to cluster together
@@ -100,8 +100,10 @@ Here is the exact rewiring algorithm described in
 legend of figure 1:
 
 Note first that:
+
 * vertex = node
 * edge = link
+* probability p = probability beta
 
 "We choose a vertex and the edge that connects it to its nearest neighbour in a
 clockwise sense. With probability p, we reconnect this edge to a vertex chosen
@@ -141,10 +143,6 @@ beta parameter are presented and detailed on the figure 2 of the article
 [Collective dynamics of 'small-world'
 network](http://tam.cornell.edu/tam/cms/manage/upload/SS_nature_smallworld.pdf).
  
-From the [Six Degrees](http://books.wwnorton.com/books/Six-Degrees/) book: 
-"on average the first five random rewirings reduce the average path length of 
-the network by one half, regardless of the size of the network."
-
 Calculation of the clustering coefficient
 ---
 
@@ -199,6 +197,4 @@ To calculate the shortest path between two nodes A and B, we can use a
 [Breadth-first search](http://en.wikipedia.org/wiki/Breadth-first_search) where
 the starting node is A and the goal node is B. As the search is done through 
 the successive "layers" of neighbours of node A, the first time we found the 
-node B we know we found it through the shortest possible path. To calculate the
-actual path length, we just count the number of steps needed to go back from B 
-to A through the visited nodes during the Breadth-first search.
+node B we know we found it through the shortest possible path. 
