@@ -16,7 +16,9 @@ module WSModel
       puts "Running experiment on #{@iterations} iterations for " +
           "#{@nodes_nb} nodes with #{@node_degree} degree..."
 
-      non_random_network = WSModel::Network.new(0, @nodes_nb, @node_degree)
+      non_random_network = WSModel::Network.new beta: 0, 
+        nodes_nb: @nodes_nb, node_degree: @node_degree
+
       c0 = non_random_network.clustering_coefficient
       puts "Clustering coefficient for beta = 0: #{c0}"
       l0 = non_random_network.average_path_length
@@ -27,7 +29,8 @@ module WSModel
         coeffs  = []
         lengths = []
         @iterations.times do |i|
-          beta_network = WSModel::Network.new(beta, @nodes_nb, @node_degree)
+          beta_network = WSModel::Network.new beta: beta, 
+            nodes_nb: @nodes_nb, node_degree: @node_degree
           coeffs[i]    = beta_network.clustering_coefficient
           lengths[i]   = beta_network.average_path_length
         end
@@ -37,7 +40,6 @@ module WSModel
         average_length  = lengths.inject{ |sum, val| sum + val } / @iterations
         puts "L(#{beta}) / L(0) = " + (average_length / l0).to_s
       end
-
 
     end
 

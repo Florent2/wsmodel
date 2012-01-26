@@ -4,17 +4,19 @@ module WSModel
 
   class Network
 
-    def initialize(beta=0.5, nodes_nb=1000, node_degree=10)
-      @beta        = beta
-      @node_degree = node_degree
-      @nodes_nb    = nodes_nb
+    #def initialize(beta=0.5, nodes_nb=1000, node_degree=10)
+    def initialize(params)
+      @beta        = params.fetch :beta,        0.5
+      @nodes_nb    = params.fetch :nodes_nb,    1000
+      @node_degree = params.fetch :node_degree, 10
+
       # a node is just represented by an index: 0, 1, 2...
-      @nodes       = 0..(nodes_nb -1) 
+      @nodes       = 0..(@nodes_nb -1) 
       # @neighbours array indexes are the node indexes
       # the values are sets of indexes of the neighbour nodes
       # for example if the node 0 is linked to the nodes 2 and 4:
       # @neighbours[0] = Set.new [2, 4]
-      @neighbours       = Array.new(nodes_nb) { Set.new }
+      @neighbours       = Array.new(@nodes_nb) { Set.new }
 
       build_initial_links
       rewire_links
