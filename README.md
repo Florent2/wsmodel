@@ -47,6 +47,7 @@ Background
 ---
 
 Main Sources:
+
 * [the Wikipedia page](http://en.wikipedia.org/wiki/Watts_and_Strogatz_model)
 * [the Six Degrees book](http://books.wwnorton.com/books/Six-Degrees/)
 * the [Collective dynamics of 'small-world' network](http://tam.cornell.edu/tam/cms/manage/upload/SS_nature_smallworld.pdf) 
@@ -89,7 +90,7 @@ some probability. This probability is the parameter *beta*. For instance
 a link from node A to B has a beta probability to be rewired from A to
 another random node Bnew in the lattice.
 
-![Construction of a Watts-Strogratz model network](https://github.com/Florent2/Watts-Strogatz-model-network-generator/raw/master/assets/images/construction-of-the-model.png)
+![Construction of a Watts-Strogratz model network](https://github.com/Florent2/Watts-Strogatz-model-network-generator/raw/master/data/images/construction-of-the-model.png)
 
 When beta is 0 the lattice remains unchanged. When beta is 1 all links
 are rewired, generating a full random network. In the middle the network
