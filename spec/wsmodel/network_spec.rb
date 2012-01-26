@@ -1,5 +1,6 @@
 require "minitest/autorun"
 require_relative "../../lib/wsmodel"
+require "benchmark"
 
 describe WSModel::Network do
 
@@ -105,6 +106,18 @@ describe WSModel::Network do
       @network.shortest_path_length(1, 6).must_equal 4 
       @network.shortest_path_length(6, 1).must_equal 4 
       @network.shortest_path_length(7, 1).must_equal 0 
+    end
+
+  end
+
+  describe "average_path_length" do
+
+    # regression test to make sure new versions of the algorithm do not
+    # degrade the algorithm speed
+    it "does take 3 seconds max for 100 nodes, degree 10 and beta 0.001" do
+      network         = WSModel::Network.new 0.001, 100, 10
+      execution_time  = Benchmark.measure { network.average_path_length }
+      execution_time.real.must_be :<, 3
     end
 
   end
