@@ -114,11 +114,11 @@ describe WSModel::Network do
 
     # regression test to make sure new versions of the algorithm do not
     # degrade the algorithm speed
-    it "does take 3 seconds max for 100 nodes, degree 10 and beta 0.001" do
+    it "does take 1 second max for 90 nodes, degree 10 and beta 0.001" do
       network         = WSModel::Network.new beta: 0.001, 
-        nodes_nb: 100, node_degree: 10
+        nodes_nb: 90, node_degree: 10
       execution_time  = Benchmark.measure { network.average_path_length }
-      execution_time.real.must_be :<, 3
+      execution_time.real.must_be :<, 1
     end
 
   end
