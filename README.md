@@ -4,8 +4,7 @@ Watts-Strogatz model network generator
 A Ruby command-line utility to generate
 [Watts-Strogatz model](http://en.wikipedia.org/wiki/Watts_and_Strogatz_model)
 networks defining input parameters (number of nodes, beta parameter) and
-collecting output parameters (average path length, the clustering coefficient, 
-and the degree distribution).
+collecting output parameters (average path length, the clustering coefficient).
 
 Usage
 ---
