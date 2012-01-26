@@ -26,17 +26,13 @@ module WSModel
     def average_path_length
       shortest_path_lengths_sum = 0
 
-      @paths = Hash.new
-
       @nodes.each do |from_node|
         @nodes.each do |to_node|
-          if from_node < to_node # to avoid calculating for both x=>y and y=>x
-            shortest_path_lengths_sum += shortest_path_length from_node, to_node
-          end
+          shortest_path_lengths_sum += shortest_path_length from_node, to_node
         end
       end
 
-      2.0 * shortest_path_lengths_sum / (@nodes_nb * (@nodes_nb - 1))
+      shortest_path_lengths_sum / (@nodes_nb * (@nodes_nb - 1)).to_f
     end
 
     # see "Calculation of the clustering coefficient" in the README
@@ -65,31 +61,40 @@ module WSModel
 
     # see "Calculation of the average path length" in the README
     def shortest_path_length(from_node, to_node)
+      # to store the found shortest path lengths
+      @paths ||= Hash.new
+      # by definition
+      @paths[[from_node, from_node]] = []
 
+      # When calculating the shortest path length of a previous node pair
+      # the shortest path length of the current pair (from_node, to_node)
+      # may have been stored.
+      # In this case we directly return 
+      # the length of the path that was stored
       if !@paths[[from_node, to_node]].nil?
         return @paths[[from_node, to_node]].length
+      # The graph is undirected, so we know that the length of 
+      # the pair (to_node, from_node) is the same as (from_node, to_node)
       elsif !@paths[[to_node, from_node]].nil?
         return @paths[[to_node, from_node]].length
       end
 
-      # a node is visited when nodes_visit_status[i] == true
-      nodes_visit_status              = Array.new @nodes_nb, false
-      queue                          = [from_node]
-      @paths[[from_node, from_node]] = []
+      # a node x is visited when visit_statuses[x] == true
+      visit_statuses = Array.new(@nodes_nb, false)
+      queue          = [from_node]
 
       while queue.any? do
         visiting_node = queue.shift
 
         @neighbours[visiting_node].each do |neighbour| 
-          unless nodes_visit_status[neighbour]
-            @paths[[from_node, neighbour]] ||= @paths[[from_node, visiting_node]] + [neighbour]
+          unless visit_statuses[neighbour]
+            visit_statuses[neighbour] = true
+            queue << neighbour 
 
-            if neighbour == to_node
-              return @paths[[from_node, to_node]].length
-            else
-              nodes_visit_status[neighbour] = true
-              queue << neighbour 
-            end
+            @paths[[from_node, neighbour]] ||= 
+              @paths[[from_node, visiting_node]] + [neighbour]
+
+            return @paths[[from_node, to_node]].length if neighbour == to_node
           end
         end
       end
