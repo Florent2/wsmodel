@@ -11,7 +11,7 @@ Usage
 
 Require Ruby 1.9+.
 
-Run `ruby -Ilib bin/wsmodel <node_number> <node_degree> <iteration_nb>`
+Run `ruby bin/wsmodel <node_number> <node_degree> <iteration_nb>`
 
 It performs the experiment of the 
 [Collective dynamics of 'small-world' network](http://tam.cornell.edu/tam/cms/manage/upload/SS_nature_smallworld.pdf) 

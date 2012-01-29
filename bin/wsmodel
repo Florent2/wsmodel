@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require "wsmodel"
+require_relative "../lib/wsmodel"
 
 experiment = WSModel::Experiment.new nodes_nb: ARGV[0], node_degree: ARGV[1], iterations: ARGV[2]
 experiment.run
