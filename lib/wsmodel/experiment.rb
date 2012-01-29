@@ -7,9 +7,9 @@ module WSModel
     BETA_VALUES = [0.0001, 0.001, 0.01, 0.1, 0.2, 0.5]
 
     def initialize(params)
-      @nodes_nb     = (params[:nodes_nb]    || 1000).to_i
-      @node_degree  = (params[:node_degree] ||   10).to_i
-      @iterations   = (params[:iterations]  ||   20).to_i
+      @nodes_nb     = params[:nodes_nb]    || 1000
+      @node_degree  = params[:node_degree] ||   10
+      @iterations   = params[:iterations]  ||   20
     end
 
     def run

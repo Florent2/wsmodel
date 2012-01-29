@@ -1,6 +1,26 @@
 #!/usr/bin/env ruby
 
+require "optparse"
 require_relative "../lib/wsmodel"
 
-experiment = WSModel::Experiment.new nodes_nb: ARGV[0], node_degree: ARGV[1], iterations: ARGV[2]
-experiment.run
+options = {}
+OptionParser.new do |opts|
+  opts.banner = "Usage: #{File.basename $0} [options]"
+
+  opts.on("-n", "--nodes n", Integer, 
+          "Number of nodes (default: 1000)") do |n|
+    options[:nodes_nb] = n
+  end
+
+  opts.on("-d", "--degree d", Integer, 
+          "Node degree (default: 10)" ) do |d|
+    options[:node_degree] = d
+  end
+
+  opts.on("-i", "--iterations i", Integer, 
+          "Number of iterations (default: 20)") do |i|
+    options[:iterations] = i
+  end
+end.parse!
+
+WSModel::Experiment.new(options).run

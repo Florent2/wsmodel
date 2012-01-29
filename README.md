@@ -11,20 +11,18 @@ Usage
 
 Require Ruby 1.9+.
 
-Run `ruby bin/wsmodel <node_number> <node_degree> <iteration_nb>`
+Run `ruby bin/wsmodel [options]`
+
+Options are:
+
+    -n, --nodes n                    Number of nodes (default: 1000)
+    -d, --degree d                   Node degree (default: 10)
+    -i, --iterations i               Number of iterations (default: 20)
 
 It performs the experiment of the 
 [Collective dynamics of 'small-world' network](http://tam.cornell.edu/tam/cms/manage/upload/SS_nature_smallworld.pdf) 
 article (Figure 2) and outputs the resulting average path lengths
 and clustering coefficients.
-
-`node_number` indicates the number of nodes of the network to be
-constructed, `node_degree` the number of links per node and
-`iterations_nb` the number of times a network is rebuilt with the same
-parameters.
-
-They are all optional parameters, their default values are respectively 
-1000, 10 and 20 as in the article experiment.
 
 Running tests
 ---
